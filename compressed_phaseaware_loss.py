@@ -24,7 +24,7 @@ def _remove_mean(x: torch.Tensor, dim: Optional[int] = -1) -> torch.Tensor:
 
 
 class PLCPALoss(torch.nn.Module):
-    """power-law compressed phaseaware (PLCPA) loss
+    """The power-law compressed phaseaware (PLCPA) loss
 
     Reference: 
     Human Listening and Live Captioning: Multi-Task Training for Speech Enhancement
