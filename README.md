@@ -1,2 +1,2 @@
-# se_loss
+# SE loss
 Some speech enhancement loss
