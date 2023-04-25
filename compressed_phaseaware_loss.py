@@ -91,15 +91,21 @@ class PLCPALoss(torch.nn.Module):
             est_compression_amplitude, ref_compression_amplitude)
 
         # step 2: phase-aware losses
-        # z=r*(cos(θ)+i*sin(θ))
-        # cos(arctan(b/a)) = sqrt(a^2 / (a^2 + b^2))
-        # sin(arctan(b/a)) = sqrt(b^2 / (a^2 + b^2))
-        # real = r*cos(θ) = r*sqrt(a^2 / (a^2 + b^2)) = a*r / amplitude
-        # imag = r*sin(θ) = r*sqrt(b^2 / (a^2 + b^2)) = b*r / amplitude
-        # est_compression_spectrum = est_spectrograms * \
-        #     (est_compression_amplitude / (est_amplitude + self.eps)).repeat(1, 2, 1)
-        # ref_compression_spectrum = ref_spectrograms * \
-        #     (ref_compression_amplitude / (ref_amplitude + self.eps)).repeat(1, 2, 1)
+        '''
+        s = a+i*b
+
+        amplitude = (a^2 + b^2)
+        r = amplitude**0.3
+
+        -> s' = r*(cos(θ)+i*sin(θ))
+        θ = arctan(b/a)
+        cos(arctan(b/a)) = sqrt(a^2 / (a^2 + b^2))
+        sin(arctan(b/a)) = sqrt(b^2 / (a^2 + b^2))
+        
+        -> s' = a'+i*b'
+        a' = r*cos(θ) = r*sqrt(a^2 / (a^2 + b^2)) = a*r / amplitude
+        b' = r*sin(θ) = r*sqrt(b^2 / (a^2 + b^2)) = b*r / amplitude
+        '''
         est_compression_spectrum = est_spectrograms * \
             (est_compression_amplitude / est_amplitude).repeat(1, 2, 1)
         ref_compression_spectrum = ref_spectrograms * \
