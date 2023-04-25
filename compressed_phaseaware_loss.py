@@ -17,6 +17,7 @@
 import torch
 
 from stft import ConvSTFT
+from mask import make_pad_mask
 
 
 def _remove_mean(x: torch.Tensor, dim: Optional[int] = -1) -> torch.Tensor:
