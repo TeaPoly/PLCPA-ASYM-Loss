@@ -14,8 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License
 
+import torch
+
+from stft import ConvSTFT
+
+
 def _remove_mean(x: torch.Tensor, dim: Optional[int] = -1) -> torch.Tensor:
     return x - x.mean(dim=dim, keepdim=True)
+
 
 class PLCPALoss(torch.nn.Module):
     """power-law compressed phaseaware (PLCPA) loss
