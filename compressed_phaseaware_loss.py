@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License
 
+import math
+
 import torch
 
 from stft import ConvSTFT
@@ -46,23 +48,27 @@ class PLCPALoss(torch.nn.Module):
 
     def __init__(
         self,
-        window_size: int = 512,
-        hop_size: Optional[int] = None,
+        window_size: int = 320,
+        hop_size: Optional[int] = 160,
+        fft_len: Optional[int] = 2048,
         power: float = 0.3,
         eps: float = 1.0e-12,
         zero_mean: bool = True
     ):
         super().__init__()
 
+        if fft_len is None:
+            fft_len = int(2 ** math.ceil(math.log2(window_size)))
+            
         self.stft = ConvSTFT(
             win_len=window_size,
             win_inc=window_size // 2 if hop_size is None else hop_size,
-            fft_len=window_size,
+            fft_len=fft_len,
             win_type="hamming",
             feature_type="complex",
             fix=True,
         )
-        self.feat_dim = window_size // 2 + 1
+        self.feat_dim = fft_len // 2 + 1
         self.power = power
         self.eps = eps
         self.zero_mean = zero_mean
