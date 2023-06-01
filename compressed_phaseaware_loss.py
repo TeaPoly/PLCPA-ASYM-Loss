@@ -50,7 +50,7 @@ class PLCPALoss(torch.nn.Module):
         self,
         window_size: int = 320,
         hop_size: Optional[int] = 160,
-        fft_len: Optional[int] = 2048,
+        fft_len: Optional[int] = 512,
         power: float = 0.3,
         eps: float = 1.0e-12,
         zero_mean: bool = True
