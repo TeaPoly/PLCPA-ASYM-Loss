@@ -1,9 +1,10 @@
-# SE loss
-Some speech enhancement loss
+# PLCPA loss
 
-## Supported
-- The power-law compressed phaseaware (PLCPA) loss
+The power-law compressed phaseaware (PLCPA) loss
 
+The definition is as follows:
+
+<img width="463" alt="截屏2023-06-01 16 16 08" src="https://github.com/TeaPoly/PLCPA-Loss/assets/3815778/4e80aace-399e-4f7b-bdcd-2697b9943b7f">
 
 ## Citation
 
