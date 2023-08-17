@@ -53,7 +53,10 @@ class PLCPALoss(torch.nn.Module):
         fft_len: Optional[int] = 512,
         power: float = 0.3,
         eps: float = 1.0e-12,
-        zero_mean: bool = True
+        zero_mean: bool = True,
+        scale_asym: float = 0.0,
+        scale_mag: float = 1.0,
+        scale_phase: float = 1.0,
     ):
         super().__init__()
 
@@ -72,6 +75,10 @@ class PLCPALoss(torch.nn.Module):
         self.power = power
         self.eps = eps
         self.zero_mean = zero_mean
+
+        self.scale_asym = scale_asym
+        self.scale_mag = scale_mag
+        self.scale_phase = scale_phase
 
     def _phasen_loss(self, ref_spectrograms, est_spectrograms):
         """
@@ -121,7 +128,15 @@ class PLCPALoss(torch.nn.Module):
             est_compression_spectrum, ref_compression_spectrum)
 
         # The PHASEN loss comprises two parts: amplitude and phase-aware losses
-        loss = mag_loss + phase_aware_loss
+        loss = self.scale_mag * mag_loss + self.scale_phase * phase_aware_loss
+
+        if self.scale_asym > 0.0:
+            # To solve the speech over-suppression issue
+            # Reference: TEA-PSE: Tencent-Ethereal-Audio-Lab Personalized Speech Enhancement System for ICASSP 2022 DNS Challenge
+            delta = ref_compression_amplitude - est_compression_amplitude
+            zero_tensor = torch.tensor(0.0, dtype=delta.dtype).to(delta.device)
+            asym_loss = torch.square(torch.where(delta > 0, delta, zero_tensor)).sum()
+            loss += self.scale_asym * asym_loss
 
         return loss
 
