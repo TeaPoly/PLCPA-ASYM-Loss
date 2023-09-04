@@ -1,4 +1,4 @@
-# PLCPA loss
+# PLCPA-ASYM loss
 
 The power-law compressed phaseaware (PLCPA) loss
 
