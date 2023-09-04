@@ -4,7 +4,9 @@ The power-law compressed phaseaware (PLCPA) loss
 
 The definition is as follows:
 
-<img width="463" alt="截屏2023-06-01 16 16 08" src="https://github.com/TeaPoly/PLCPA-Loss/assets/3815778/4e80aace-399e-4f7b-bdcd-2697b9943b7f">
+$$
+\mathcal{L}_{PLCPA}=\left||S|^p-|\hat{S}|^p\right|^2+\left||S|^pe^{j\varphi(S)}-|\hat{S}|^pe^{j\varphi(\hat{S})}\right|^2
+$$
 
 The definition of asymmetric loss is as follows:
 
